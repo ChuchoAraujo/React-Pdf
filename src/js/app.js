@@ -1,13 +1,37 @@
 import React from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
+import { Document, Page, Text, pdf } from '@react-pdf/renderer';
 import MyDocument from './component/MyDocument.jsx';
 
 function App() {
+    const generatePdf = async () => {
+        const doc = (
+            <Document>
+                <Page>
+                    <MyDocument/>
+                </Page>
+            </Document>
+        );
+        const pdfBlob = await pdf(doc).toBlob();
+        const url = URL.createObjectURL(pdfBlob);
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
     return (
-        <PDFViewer style={{ width: '100%', height: '100vh' }} scale={1.5}>
-            <MyDocument />
-        </PDFViewer>
+        <div className="App">
+            <header className="App-header">
+                <button onClick={generatePdf}>Generar PDF</button>
+            </header>
+        </div>
     );
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
